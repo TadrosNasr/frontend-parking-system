@@ -1,0 +1,66 @@
+<div class="container mt-4">
+  <h2>Parking Dashboard</h2>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <div class="card-header">Gates</div>
+        <div class="card-body">
+          <ul *ngIf="gates.length; else noGates">
+            <li *ngFor="let gate of gates">{{ gate.name || gate.id }}</li>
+          </ul>
+          <ng-template #noGates><span class="text-muted">No gates found.</span></ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <div class="card-header">Zones</div>
+        <div class="card-body">
+          <ul *ngIf="zones.length; else noZones">
+            <li *ngFor="let zone of zones">{{ zone.name || zone.id }}</li>
+          </ul>
+          <ng-template #noZones><span class="text-muted">No zones found.</span></ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <div class="card-header">Categories</div>
+        <div class="card-body">
+          <ul *ngIf="categories.length; else noCategories">
+            <li *ngFor="let category of categories">{{ category.name || category.id }}</li>
+          </ul>
+          <ng-template #noCategories><span class="text-muted">No categories found.</span></ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 mb-3">
+      <div class="card">
+        <div class="card-header">Available Parking Slots</div>
+        <div class="card-body">
+          <!-- Parking slots grid here -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <div class="card">
+        <div class="card-header">Check-in / Check-out</div>
+        <div class="card-body">
+          <!-- Check-in/out UI here -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-3">
+      <div class="card">
+        <div class="card-header">Ticket Details</div>
+        <div class="card-body">
+          <!-- Ticket details UI here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
