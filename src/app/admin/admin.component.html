@@ -1,49 +1,290 @@
-<div class="container mt-4">
-  <h2>Admin Panel</h2>
-  <div class="row">
-    <div class="col-md-6 mb-3">
-      <div class="card">
-        <div class="card-header">Manage Zones</div>
-        <div class="card-body">
-          <!-- Zone open/close UI here -->
+<div class="container-fluid py-4 bg-light min-vh-100">
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex align-items-center justify-content-between bg-white rounded-3 shadow-sm p-4">
+        <div class="d-flex align-items-center">
+          <i class="fas fa-cogs text-primary fs-1 me-3"></i>
+          <div>
+            <h1 class="mb-1 fw-bold text-dark">Admin Panel</h1>
+            <p class="text-muted mb-0">Comprehensive parking system management</p>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-md-6 mb-3">
-      <div class="card">
-        <div class="card-header">Update Category Rates</div>
-        <div class="card-body">
-          <!-- Category rates UI here -->
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 mb-3">
-      <div class="card">
-        <div class="card-header">Add Rush Hours / Vacations</div>
-        <div class="card-body">
-          <!-- Rush hours/vacations UI here -->
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 mb-3">
-      <div class="card">
-        <div class="card-header">View Subscriptions</div>
-        <div class="card-body">
-          <!-- Subscriptions UI here -->
+        <div class="badge bg-primary fs-6 px-3 py-2">
+          <i class="fas fa-shield-alt me-2"></i>Administrator
         </div>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-12 mb-3">
-      <div class="card">
-        <div class="card-header">Parking State Reports</div>
+
+  <!-- Main Content Grid -->
+  <div class="row g-4">
+    <!-- Manage Zones -->
+    <div class="col-xl-6 col-lg-6">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-primary text-white border-0 py-3">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-map-marked-alt fs-4 me-3"></i>
+            <h5 class="mb-0 fw-bold">Manage Zones</h5>
+          </div>
+        </div>
         <div class="card-body">
-          <!-- Reports UI here (charts/tables) -->
+          <div *ngIf="zones">
+            <div class="alert alert-info border-0 mb-3">
+              <i class="fas fa-info-circle me-2"></i>
+              <strong>{{zones.length}}</strong> zones configured
+            </div>
+            <div class="list-group list-group-flush">
+              <div *ngFor="let zone of zones" class="list-group-item border-0 mb-2 rounded-2 bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-parking text-primary me-3"></i>
+                    <div>
+                      <h6 class="mb-1 fw-bold">{{ zone.name }}</h6>
+                      <small class="d-flex align-items-center">
+                        Status: 
+                        <span class="badge ms-2" [ngClass]="zone.open ? 'bg-success' : 'bg-danger'">
+                          <i class="fas" [ngClass]="zone.open ? 'fa-check' : 'fa-times'" class="me-1"></i>
+                          {{ zone.open ? 'Open' : 'Closed' }}
+                        </span>
+                      </small>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline-secondary btn-sm" (click)="toggleZone(zone)">
+                    <i class="fas" [ngClass]="zone.open ? 'fa-lock' : 'fa-unlock'" class="me-2"></i>
+                    {{ zone.open ? 'Close' : 'Open' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Management & Rush Hours -->
+    <div class="col-xl-6 col-lg-6">
+      <!-- Update Category Rates -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-warning text-dark border-0 py-3">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-tags fs-4 me-3"></i>
+            <h5 class="mb-0 fw-bold">Update Category Rates</h5>
+          </div>
+        </div>
+        <div class="card-body">
+          <div *ngIf="categories">
+            <div class="alert alert-warning border-0 mb-3">
+              <i class="fas fa-dollar-sign me-2"></i>
+              <strong>{{categories.length}}</strong> pricing categories
+            </div>
+            <div class="list-group list-group-flush">
+              <div *ngFor="let cat of categories" class="list-group-item border-0 mb-2 rounded-2 bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-tag text-warning me-3"></i>
+                    <div>
+                      <h6 class="mb-1 fw-bold">{{ cat.name }}</h6>
+                      <small class="text-muted">Rate: <strong class="text-success">${{ cat.rate }}</strong></small>
+                    </div>
+                  </div>
+                  <button class="btn btn-warning btn-sm" (click)="editCategory(cat)">
+                    <i class="fas fa-edit me-2"></i>Edit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rush Hours / Vacations -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-info text-white border-0 py-3">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-clock fs-4 me-3"></i>
+            <h5 class="mb-0 fw-bold">Rush Hours & Vacations</h5>
+          </div>
+        </div>
+        <div class="card-body text-center">
+          <p class="text-muted mb-4">Manage peak time rates and vacation periods</p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button class="btn btn-info btn-lg" (click)="addRushHour()">
+              <i class="fas fa-tachometer-alt me-2"></i>Add Rush Hour
+            </button>
+            <button class="btn btn-secondary btn-lg" (click)="addVacation()">
+              <i class="fas fa-umbrella-beach me-2"></i>Add Vacation
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Width Sections -->
+  <div class="row g-4 mt-2">
+    <!-- Subscriptions -->
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-success text-white border-0 py-3">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-users fs-4 me-3"></i>
+            <h5 class="mb-0 fw-bold">View Subscriptions</h5>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div *ngIf="subscriptions">
+            <div class="alert alert-success border-0 rounded-0 mb-0">
+              <div class="container">
+                <i class="fas fa-user-check me-2"></i>
+                <strong>{{subscriptions.length}}</strong> active subscriptions
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table *ngIf="subscriptions && subscriptions.length" class="table table-hover table-striped mb-0">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="fw-bold"><i class="fas fa-user me-2"></i>Username</th>
+                    <th class="fw-bold"><i class="fas fa-check-circle me-2"></i>Active</th>
+                    <th class="fw-bold"><i class="fas fa-layer-group me-2"></i>Category</th>
+                    <th class="fw-bold"><i class="fas fa-car me-2"></i>Cars</th>
+                    <th class="fw-bold"><i class="fas fa-sign-in-alt me-2"></i>Current Check-ins</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let sub of subscriptions">
+                    <td class="align-middle">
+                      <div class="d-flex align-items-center">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px; font-size: 14px;">
+                          {{ sub.userName.charAt(0).toUpperCase() }}
+                        </div>
+                        <strong>{{ sub.userName }}</strong>
+                      </div>
+                    </td>
+                    <td class="align-middle">
+                      <span class="badge fs-6 px-3 py-2" [ngClass]="sub.active ? 'bg-success' : 'bg-danger'">
+                        <i class="fas" [ngClass]="sub.active ? 'fa-check' : 'fa-times'" class="me-2"></i>
+                        {{ sub.active ? 'Yes' : 'No' }}
+                      </span>
+                    </td>
+                    <td class="align-middle">
+                      <span class="badge bg-info fs-6 px-3 py-2">{{ sub.category }}</span>
+                    </td>
+                    <td class="align-middle">
+                      <div class="list-unstyled mb-0">
+                        <div *ngFor="let car of sub.cars" class="badge bg-secondary me-1 mb-1 fs-6 px-2 py-1">
+                          <i class="fas fa-car me-1"></i>{{ car.plate }}
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle">
+                      <div *ngFor="let check of sub.currentCheckins" class="list-unstyled mb-0">
+                        <div *ngIf="!check" class="text-muted fst-italic">
+                          <i class="fas fa-info-circle me-2"></i>No active check-ins
+                        </div>
+                        <div *ngIf="check" class="small">
+                          <div class="badge bg-warning text-dark mb-1 d-block">
+                            <i class="fas fa-ticket-alt me-1"></i>Ticket: {{ check.ticketId }}
+                          </div>
+                          <div class="badge bg-primary d-block">
+                            <i class="fas fa-map-marker-alt me-1"></i>Zone: {{ check.zoneId }}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Parking State Reports -->
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-dark text-white border-0 py-3">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-chart-bar fs-4 me-3"></i>
+              <h5 class="mb-0 fw-bold">Parking State Reports</h5>
+            </div>
+            <div class="badge bg-light text-dark fs-6 px-3 py-2">
+              <i class="fas fa-sync-alt me-2"></i>Live Data
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div *ngIf="parkingState">
+            <div class="alert alert-dark border-0 rounded-0 mb-0">
+              <div class="container">
+                <i class="fas fa-database me-2"></i>
+                Real-time parking status for <strong>{{parkingState.length}}</strong> zones
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table *ngIf="parkingState && parkingState.length" class="table table-hover mb-0">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="fw-bold"><i class="fas fa-map-marked-alt me-2"></i>Zone</th>
+                    <th class="fw-bold text-center"><i class="fas fa-calculator me-2"></i>Total</th>
+                    <th class="fw-bold text-center"><i class="fas fa-car me-2"></i>Occupied</th>
+                    <th class="fw-bold text-center"><i class="fas fa-parking me-2"></i>Free</th>
+                    <th class="fw-bold text-center"><i class="fas fa-bookmark me-2"></i>Reserved</th>
+                    <th class="fw-bold text-center"><i class="fas fa-users me-2"></i>Visitors</th>
+                    <th class="fw-bold text-center"><i class="fas fa-user-friends me-2"></i>Subscribers</th>
+                    <th class="fw-bold text-center"><i class="fas fa-hashtag me-2"></i>Sub. Count</th>
+                    <th class="fw-bold text-center"><i class="fas fa-traffic-light me-2"></i>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let zone of parkingState" [ngClass]="!zone.open ? 'table-secondary' : ''">
+                    <td class="align-middle">
+                      <div class="d-flex align-items-center">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px; font-size: 12px;">
+                          <i class="fas fa-parking"></i>
+                        </div>
+                        <strong>{{ zone.name }}</strong>
+                      </div>
+                    </td>
+                    <td class="text-center align-middle">
+                      <span class="badge bg-secondary fs-6 px-3 py-2">{{ zone.totalSlots }}</span>
+                    </td>
+                    <td class="text-center align-middle">
+                      <span class="badge bg-danger fs-6 px-3 py-2">{{ zone.occupied }}</span>
+                    </td>
+                    <td class="text-center align-middle">
+                      <span class="badge bg-success fs-6 px-3 py-2">{{ zone.free }}</span>
+                    </td>
+                    <td class="text-center align-middle">
+                      <span class="badge bg-warning text-dark fs-6 px-3 py-2">{{ zone.reserved }}</span>
+                    </td>
+                    <td class="text-center align-middle">
+                      <span class="badge bg-info fs-6 px-3 py-2">{{ zone.availableForVisitors }}</span>
+                    </td>
+                    <td class="text-center align-middle">
+                      <span class="badge bg-primary fs-6 px-3 py-2">{{ zone.availableForSubscribers }}</span>
+                    </td>
+                    <td class="text-center align-middle">
+                      <span class="badge bg-dark fs-6 px-3 py-2">{{ zone.subscriberCount }}</span>
+                    </td>
+                    <td class="text-center align-middle">
+                      <span class="badge fs-6 px-3 py-2" [ngClass]="zone.open ? 'bg-success' : 'bg-danger'">
+                        <i class="fas" [ngClass]="zone.open ? 'fa-check-circle' : 'fa-times-circle'" class="me-2"></i>
+                        {{ zone.open ? 'Open' : 'Closed' }}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

@@ -1,98 +1,98 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Parking Dashboard</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-  <li class="nav-item"><a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
-  <li class="nav-item"><a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a></li>
-  <!-- Add more router links for gates, zones, categories, subscriptions, tickets as needed -->
-      </ul>
-    </div>
-  </div>
-</nav>
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
-          Parking State Overview
-        </div>
-        <div class="card-body">
-          <!-- Dashboard content goes here -->
-          <div class="row text-center">
-            <div class="col-md-3 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Total Gates</h5>
-                  <p class="card-text display-6">{{ totalgates.length }}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Total Zones</h5>
-                  <p class="card-text display-6">{{totalzones}}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Active Tickets</h5>
-                  <p class="card-text display-6">{{totaltickets}}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Subscriptions</h5>
-                  <p class="card-text display-6">{{totalsubscriptions}}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 mb-4">
-          <div class="card">
-            <div class="card-header">Recent Check-ins</div>
-            <div class="card-body">
-              <!-- Table for recent check-ins -->
-              <table class="table table-striped">
-                <thead>
-                  <tr><th>Ticket ID</th><th>Gate</th><th>Zone</th><th>Time</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>--</td><td>--</td><td>--</td><td>--</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 mb-4">
-          <div class="card">
-            <div class="card-header">Recent Check-outs</div>
-            <div class="card-body">
-              <!-- Table for recent check-outs -->
-              <table class="table table-striped">
-                <thead>
-                  <tr><th>Ticket ID</th><th>Gate</th><th>Zone</th><th>Time</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>--</td><td>--</td><td>--</td><td>--</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4"> -->
+  <!-- <div class="container-fluid"> -->
+    <!-- <a class="navbar-brand" href="#">Parking Dashboard</a> -->
+    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> -->
+      <!-- <span class="navbar-toggler-icon"></span> -->
+    <!-- </button> -->
+    <!-- <div class="collapse navbar-collapse" id="navbarNav"> -->
+      <!-- <ul class="navbar-nav ms-auto"> -->
+  <!-- <li class="nav-item"><a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li> -->
+  <!-- <li class="nav-item"><a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a></li> -->
+  <!-- <!~~ Add more router links for gates, zones, categories, subscriptions, tickets as needed ~~> -->
+      <!-- </ul> -->
+    <!-- </div> -->
+  <!-- </div> -->
+<!-- </nav> -->
+<!-- <div class="container"> -->
+  <!-- <div class="row"> -->
+    <!-- <div class="col-12"> -->
+      <!-- <div class="card mb-4"> -->
+        <!-- <div class="card-header bg-primary text-white"> -->
+          <!-- Parking State Overview -->
+        <!-- </div> -->
+        <!-- <div class="card-body"> -->
+          <!-- <!~~ Dashboard content goes here ~~> -->
+          <!-- <div class="row text-center"> -->
+            <!-- <div class="col-md-3 mb-3"> -->
+              <!-- <div class="card"> -->
+                <!-- <div class="card-body"> -->
+                  <!-- <h5 class="card-title">Total Gates</h5> -->
+                  <!-- <p class="card-text display-6">{{ totalgates.length }}</p> -->
+                <!-- </div> -->
+              <!-- </div> -->
+            <!-- </div> -->
+            <!-- <div class="col-md-3 mb-3"> -->
+              <!-- <div class="card"> -->
+                <!-- <div class="card-body"> -->
+                  <!-- <h5 class="card-title">Total Zones</h5> -->
+                  <!-- <p class="card-text display-6">{{totalzones}}</p> -->
+                <!-- </div> -->
+              <!-- </div> -->
+            <!-- </div> -->
+            <!-- <div class="col-md-3 mb-3"> -->
+              <!-- <div class="card"> -->
+                <!-- <div class="card-body"> -->
+                  <!-- <h5 class="card-title">Active Tickets</h5> -->
+                  <!-- <p class="card-text display-6">{{totaltickets}}</p> -->
+                <!-- </div> -->
+              <!-- </div> -->
+            <!-- </div> -->
+            <!-- <div class="col-md-3 mb-3"> -->
+              <!-- <div class="card"> -->
+                <!-- <div class="card-body"> -->
+                  <!-- <h5 class="card-title">Subscriptions</h5> -->
+                  <!-- <p class="card-text display-6">{{totalsubscriptions}}</p> -->
+                <!-- </div> -->
+              <!-- </div> -->
+            <!-- </div> -->
+          <!-- </div> -->
+        <!-- </div> -->
+      <!-- </div> -->
+      <!-- <div class="row"> -->
+        <!-- <div class="col-md-6 mb-4"> -->
+          <!-- <div class="card"> -->
+            <!-- <div class="card-header">Recent Check-ins</div> -->
+            <!-- <div class="card-body"> -->
+              <!-- <!~~ Table for recent check-ins ~~> -->
+              <!-- <table class="table table-striped"> -->
+                <!-- <thead> -->
+                  <!-- <tr><th>Ticket ID</th><th>Gate</th><th>Zone</th><th>Time</th></tr> -->
+                <!-- </thead> -->
+                <!-- <tbody> -->
+                  <!-- <tr><td>--</td><td>--</td><td>--</td><td>--</td></tr> -->
+                <!-- </tbody> -->
+              <!-- </table> -->
+            <!-- </div> -->
+          <!-- </div> -->
+        <!-- </div> -->
+        <!-- <div class="col-md-6 mb-4"> -->
+          <!-- <div class="card"> -->
+            <!-- <div class="card-header">Recent Check-outs</div> -->
+            <!-- <div class="card-body"> -->
+              <!-- <!~~ Table for recent check-outs ~~> -->
+              <!-- <table class="table table-striped"> -->
+                <!-- <thead> -->
+                  <!-- <tr><th>Ticket ID</th><th>Gate</th><th>Zone</th><th>Time</th></tr> -->
+                <!-- </thead> -->
+                <!-- <tbody> -->
+                  <!-- <tr><td>--</td><td>--</td><td>--</td><td>--</td></tr> -->
+                <!-- </tbody> -->
+              <!-- </table> -->
+            <!-- </div> -->
+          <!-- </div> -->
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </div> -->
+  <!-- </div> -->
+<!-- </div> -->
 <router-outlet />
