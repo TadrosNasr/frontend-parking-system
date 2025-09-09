@@ -21,7 +21,6 @@ export class LoginComponent {
   login() {
     this.api.login({ username: this.username, password: this.password }).subscribe({
       next: (res) => {
-        // Support both res.role and res.user.role
         const role = res.role || res.user?.role;
         const token = res.token || res.user?.token;
         if (res.user) {

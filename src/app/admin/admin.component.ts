@@ -91,16 +91,6 @@ export class AdminComponent {
     }
   }
 
-//   getReports() {
-//     this.api.getReports().subscribe({
-//       next: (data: any) => {
-//         this.reports = data;
-//       },
-//       error: () => {
-//         this.reports = { error: 'Failed to load reports' };
-//       }
-//     });
-//   }
 
 
     async ngOnInit(): Promise<void> {

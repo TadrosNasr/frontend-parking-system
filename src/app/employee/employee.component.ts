@@ -1,161 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-// import { ApiService } from '../api.service';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-
-// @Component({
-//   selector: 'app-employee-dashboard',
-//   standalone: true,
-//   templateUrl: './employee.component.html',
-//   styleUrls: ['./employee.component.css'],
-//   imports: [CommonModule, FormsModule]
-// })
-// export class EmployeeComponent implements OnInit {
-//   gates: any;
-//   zones: any;
-//   categories: any;
-//   selectedZone: any; // For parking slots
-//   selectedCheckinZone: any; // For check-in/out
-//   parkingSlots: any;
-//   selectedSlot: any;
-//   licensePlate: string = '';
-//   checkInZone: any;
-//   recentActivity: any;
-//   searchTerm: string = '';
-//   selectedTicket: any;
-//   availableSlots: number = 0;
-//   allZonesParkingState: any[] = [];
-
-//   constructor(public api: ApiService) {}
-
-//   ngOnInit() {
-//     this.refreshSlots();
-//   }
-
-//   getGates() {
-//     this.api.getGates().subscribe((data: any) => this.gates = data);
-//   }
-
-//   getZones() {
-//     this.api.getZones().subscribe((data: any) => this.zones = data);
-//   }
-
-//   getCategories() {
-//     this.api.getCategories().subscribe((data: any) => this.categories = data);
-//   }
-
-//   loadParkingSlots(zoneId?: string) {
-//     this.api.getParkingState().subscribe((data: any[]) => {
-//       this.allZonesParkingState = data;
-//       if (zoneId) {
-//         console.log('zoneId', zoneId);
-//         const zone = data.find((z: any) => z.zoneId === zoneId);
-//         // If zone.slots is undefined, use an empty array
-//         this.parkingSlots = zone && Array.isArray(zone.slots) ? zone.slots : [];
-//         this.availableSlots = zone ? zone.free : 0;
-//         // Also update selectedZone with full zone object for template
-//         this.selectedZone = zone || this.selectedZone;
-//       } else {
-//         this.availableSlots = data.reduce((sum, zone) => sum + (zone.free || 0), 0);
-//         this.parkingSlots = [];
-//       }
-//     });
-//   }
-
-//   refreshSlots() {
-//     const zoneId = this.selectedZone?.zoneId || this.selectedZone?.id;
-//     if (zoneId) {
-//       this.loadParkingSlots(zoneId);
-//     } else {
-//       this.loadParkingSlots(); // Will sum all free slots
-//     }
-//   }
-
-//   selectSlot(slot: any) {
-//     this.selectedSlot = slot;
-//   }
-
-//   // Update checkIn and checkOut to use correct zone and ticket logic
-//   checkIn() {
-//     const zoneId = this.selectedCheckinZone?.zoneId || this.selectedCheckinZone?.id;
-//     if (!this.licensePlate || !zoneId) {
-//       alert('Enter license plate and select zone');
-//       return;
-//     }
-//     const token = localStorage.getItem('token');
-//     if (!token) {
-//       alert('You are not logged in. Please log in again.');
-//       return;
-//     }
-//     const zone = this.allZonesParkingState.find(z => z.zoneId === zoneId || z.id === zoneId);
-//     if (zone && zone.free === 0) {
-//       alert('No free slots available in this zone.');
-//       return;
-//     }
-//     // Only send required fields to API
-//     this.api.checkin({ licensePlate: this.licensePlate, zoneId }).subscribe({
-//       next: (data: any) => {
-//         this.recentActivity = [data];
-//         alert('Check-in successful!');
-//         this.refreshSlots();
-//       },
-//       error: (err: any) => {
-//         if (err.status === 401 || err.status === 403) {
-//           alert('Authentication failed. Please log in again.');
-//         } else if (err.error && err.error.message) {
-//           alert('Check-in failed: ' + err.error.message);
-//         } else {
-//           alert('Check-in failed');
-//         }
-//       }
-//     });
-//   }
-
-//   checkOut() {
-//     if (!this.searchTerm) {
-//         console.log('searchTerm', this.searchTerm);
-//       alert('Enter ticket or license plate');
-//       return;
-//     }
-//     this.api.checkout({ ticket: this.searchTerm }).subscribe({
-//       next: (data: any) => {
-//         this.recentActivity = [data];
-//         alert('Check-out successful!');
-//         this.refreshSlots();
-//       },
-//       error: (err: any) => {
-//         if (err.status === 401 || err.status === 403) {
-//           alert('Authentication failed. Please log in again.');
-//         } else if (err.error && err.error.message) {
-//           alert('Check-out failed: ' + err.error.message);
-//         } else {
-//           alert('Check-out failed');
-//         }
-//       }
-//     });
-//   }
-
-//   searchTicket() {
-//     if (!this.searchTerm) return alert('Enter ticket or license plate');
-//     this.api.getTicket(this.searchTerm).subscribe({
-//       next: (data: any) => {
-//         this.selectedTicket = data;
-//       },
-//       error: () => alert('Ticket not found')
-//     });
-//   }
-
-//   printTicket(ticket: any) {
-//     window.print();
-//   }
-
-//   extendParking(ticket: any) {
-//     alert('Extend parking for ticket: ' + ticket.id);
-//     // Implement API call if available
-//   }
-// }
-
-// === FILE: src/app/employee/employee.component.ts ===
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import { CommonModule } from '@angular/common';
@@ -169,13 +11,13 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule]
 })
 export class EmployeeComponent implements OnInit {
+  selectedGate: any = null;
   lastCheckoutInfo: { licensePlate?: string; zone?: string; checkoutTime?: string } = {};
   lastCheckinInfo: { licensePlate?: string; zone?: string; checkinTime?: string } = {};
   gates: any[] = [];
   zones: any[] = [];
   categories: any[] = [];
 
-  selectedGate: any = null; // For gate selection
   selectedZone: any = null;
   selectedCheckinZone: any = null;
 
@@ -200,7 +42,6 @@ export class EmployeeComponent implements OnInit {
     this.refreshSlots();
   }
 
-  // When gates are loaded, auto-select first gate if none selected
   setDefaultGate() {
     if (this.gates && this.gates.length > 0 && !this.selectedGate) {
       this.selectedGate = this.gates[0];
@@ -321,7 +162,6 @@ export class EmployeeComponent implements OnInit {
           time: ticket.checkinAt ?? new Date().toLocaleString(),
           ticketId
         };
-        // Save last check-in info (show zone name if available)
         let zoneName = '';
         if (ticket.zoneId && this.zones && this.zones.length > 0) {
           const zoneObj = this.zones.find(z => z.id === ticket.zoneId || z.zoneId === ticket.zoneId);
@@ -361,10 +201,9 @@ export class EmployeeComponent implements OnInit {
       return;
     }
 
-    // Try to get the ticket by license plate
+
     this.api.getTicket(this.licensePlate).subscribe({
       next: (ticket: any) => {
-        // If found, proceed to checkout
         const payload = { ticketId: ticket.id };
         this.api.checkout(payload).subscribe({
           next: (data: any) => {
@@ -374,7 +213,6 @@ export class EmployeeComponent implements OnInit {
               zone: ticket.zoneId ?? '',
               time: data.checkoutAt ?? new Date().toLocaleString()
             };
-            // Save last checkout info
             this.lastCheckoutInfo = {
               licensePlate: item.licensePlate,
               zone: item.zone,

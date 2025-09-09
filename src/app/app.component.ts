@@ -21,8 +21,6 @@ export class AppComponent {
 );
       (await this.api.getZones()).subscribe((data: any[]) => this.totalzones = data.length);
       (await this.api.getCategories()).subscribe((data: any[]) => this.totalcategories = data.length);
-   //   (await this.api.getSubscriptions()).subscribe((data: any[]) => this.totalsubscriptions = data.length);
-     // (await this.api.getTickets()).subscribe((data: any[]) => this.totaltickets = data.length);
       console.log(this.totalgates);
     console.log(this.totalzones);
     console.log(this.totalcategories);

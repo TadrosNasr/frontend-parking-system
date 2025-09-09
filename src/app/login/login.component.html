@@ -1,6 +1,5 @@
 <div class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
   <div class="card border-0 shadow-lg" style="width: 100%; max-width: 400px;">
-    <!-- Card Header -->
     <div class="card-header bg-primary text-white text-center border-0 py-4">
       <div class="mb-2">
         <i class="fas fa-user-circle fs-1"></i>
@@ -9,10 +8,9 @@
       <p class="mb-0 opacity-75">Access your parking system</p>
     </div>
 
-    <!-- Card Body -->
+
     <div class="card-body p-4">
       <form (ngSubmit)="login()">
-        <!-- Username Field -->
         <div class="mb-4">
           <label class="form-label fw-medium text-dark">
             <i class="fas fa-user me-2 text-primary"></i>Username
@@ -32,7 +30,6 @@
           </div>
         </div>
 
-        <!-- Password Field -->
         <div class="mb-4">
           <label class="form-label fw-medium text-dark">
             <i class="fas fa-lock me-2 text-primary"></i>Password
@@ -52,13 +49,11 @@
           </div>
         </div>
 
-        <!-- Error Message -->
         <div *ngIf="error" class="alert alert-danger border-0 mb-4">
           <i class="fas fa-exclamation-triangle me-2"></i>
           <strong>Error:</strong> {{ error }}
         </div>
 
-        <!-- Login Button -->
         <div class="d-grid mb-3">
           <button type="submit" class="btn btn-primary btn-lg fw-bold">
             <i class="fas fa-sign-in-alt me-2"></i>Login
