@@ -348,7 +348,7 @@
               <strong>Occupied:</strong> {{selectedZone.occupied}}<br>
               <strong>Reserved:</strong> {{selectedZone.reserved}}
             </div>
-            <div *ngIf="parkingSlots && parkingSlots.length" class="border rounded-3 p-4 bg-light">
+            <div *ngIf="parkingSlots" class="border rounded-3 p-4 bg-light">
               <div class="row g-2">
                 <div *ngFor="let slot of parkingSlots" class="col-xl-1 col-lg-2 col-md-3 col-sm-4 col-6">
                   <div class="card text-center border-2"
@@ -374,7 +374,7 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="!parkingSlots || parkingSlots.length === 0" class="text-center py-5">
+            <div *ngIf="!parkingSlots" class="text-center py-5">
             <!-- <div *ngIf="!parkingSlots " class="text-center py-5"> -->
               <i class="fas fa-parking text-muted" style="font-size: 4rem;"></i>
               <h5 class="text-muted mt-3">No slots data for this zone</h5>
@@ -457,6 +457,8 @@
                   </div>
                   <small class="text-muted">{{activity.time}}</small>
                 </div>
+            <span *ngIf="activity.ticketId">| Ticket ID: <b>{{activity.ticketId}}</b></span>
+            <button *ngIf="activity.ticketId" (click)="searchTerm = activity.ticketId" style="margin-left:8px;">Use for Search</button>
               </div>
             </div>
           </div>
@@ -477,7 +479,7 @@
           <!-- Search Ticket -->
           <div class="mb-4">
             <label class="form-label fw-medium">
-              <i class="fas fa-search text-primary me-2"></i>Search by License Plate or Ticket ID
+              <i class="fas fa-search text-primary me-2"></i>Search by Ticket ID
             </label>
             <div class="input-group input-group-lg">
               <input type="text" 
@@ -497,48 +499,34 @@
                 <i class="fas fa-ticket-alt me-2"></i>Ticket #{{selectedTicket.id}}
               </h6>
             </div>
-            <div class="card-body">
+          <div class="card-body" id="ticket-info-card">
               <div class="row g-3">
                 <div class="col-6">
                   <div class="d-flex align-items-center mb-2">
                     <i class="fas fa-car text-primary me-2"></i>
-                    <strong>License Plate:</strong>
+                    <strong>License Plate:</strong>{{licensePlate}}
                   </div>
-                  <span class="badge bg-primary fs-6 px-3 py-2">{{selectedTicket.licensePlate}}</span>
+                  <span class="badge bg-primary fs-6 px-3 py-2">{{lastCheckinInfo.licensePlate}}</span>
                 </div>
                 <div class="col-6">
                   <div class="d-flex align-items-center mb-2">
                     <i class="fas fa-map-marker-alt text-primary me-2"></i>
                     <strong>Zone:</strong>
                   </div>
-                  <span class="badge bg-info fs-6 px-3 py-2">{{selectedTicket.zone}}</span>
+                  <span class="badge bg-info fs-6 px-3 py-2">{{lastCheckinInfo.zone}}</span>
                 </div>
                 <div class="col-6">
                   <div class="d-flex align-items-center mb-2">
                     <i class="fas fa-clock text-primary me-2"></i>
                     <strong>Check-in Time:</strong>
                   </div>
-                  <small class="text-muted">{{selectedTicket.checkInTime}}</small>
+                  <small class="text-muted">{{lastCheckinInfo.checkinTime}}</small>
                 </div>
-                <div class="col-6">
-                  <div class="d-flex align-items-center mb-2">
-                    <i class="fas fa-hourglass-half text-primary me-2"></i>
-                    <strong>Duration:</strong>
-                  </div>
-                  <small class="text-muted">{{selectedTicket.duration}}</small>
-                </div>
-                <div class="col-12">
-                  <div class="d-flex align-items-center mb-2">
-                    <i class="fas fa-dollar-sign text-primary me-2"></i>
-                    <strong>Current Fee:</strong>
-                  </div>
-                  <span class="badge bg-success fs-5 px-3 py-2">${{selectedTicket.currentFee}}</span>
-                </div>
-              </div>
+                
               
               <!-- Ticket Actions -->
               <div class="d-grid gap-2 mt-3">
-                <button class="btn btn-outline-primary" (click)="printTicket(selectedTicket)">
+              <button class="btn btn-outline-primary" (click)="printTicket()">
                   <i class="fas fa-print me-2"></i>Print Ticket
                 </button>
                 <button class="btn btn-outline-warning" (click)="extendParking(selectedTicket)">
@@ -614,7 +602,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <!-- Font Awesome CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
